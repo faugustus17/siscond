@@ -5,6 +5,8 @@ import java.sql.SQLException;
 
 import com.mysql.jdbc.Connection;
 import java.sql.Statement;
+import java.util.ArrayList;
+
 import com.siscond.modelo.Apartamentos;
 
 public class ApartamentosDao {
@@ -59,6 +61,96 @@ public class ApartamentosDao {
 	}
 	
 	//Alteração no BD
+	public boolean alteraApto(Apartamentos apto){
+		boolean retorno = false;
+		String sql = null;
+		try{
+			sql = "UPDATE tb_apartamentos SET";
+			sql += "nome_titular= '"+apto.getNome_titular()+"', ";
+			sql += "telefone_titular= '"+apto.getTelefone_titular()+"'";
+			sql += " WHERE num_apto = "+apto.getNum_apto();
+			st = conn.createStatement();
+			int rst = st.executeUpdate(sql);
+			if(rst == 1){
+				//Alteração efetuada com sucesso
+				retorno = true;
+			}else{
+				//ALteração não efetuada
+				retorno = false;
+			}
+		}catch (SQLException e){
+			return retorno;
+		}
+		return retorno;	
+	}
 	
+	//Exclusão no BD
+	public boolean excluiApto(Apartamentos apto){
+		boolean retorno = false;
+		String sql = null;
+		try{
+			sql =" DELETE FROM tb_apartamentos WHERE num_apto = "+apto.getNum_apto();
+			st = conn.createStatement();
+			int rst = st.executeUpdate(sql);
+			if (rst == 1){
+				//Exclusão efetuada com sucesso
+				retorno = true;
+			}else{
+				//Exclusão não efetuada
+				retorno = false;
+			}
+		}catch (SQLException e){
+			return retorno;
+		}
+		return retorno;	
+	}
 	
+	//Consulta e lista pelo Numero do Apartamento
+	public ArrayList<Apartamentos> consultaNumApto (int numero){
+		Apartamentos a;
+		String sql = null;
+		ArrayList<Apartamentos> aLAp = new ArrayList<Apartamentos>();
+		try{
+			sql = "SELECT * FROM tb_apartamentos WHERE num_apto = "+numero;
+			st = conn.createStatement();
+			rs = st.executeQuery(sql);
+			while (rs.next()){
+				a = new Apartamentos();
+				a.setNum_apto(rs.getInt("num_apto"));
+				a.setNome_titular(rs.getString("nome_titular"));
+				a.setTelefone_titular(rs.getString("telefone_titular"));
+				aLAp.add(a);
+			}
+		}catch (SQLException e){
+			return null;
+		}
+		return aLAp;
+	}
+	
+	//Consulta e lista pelo Numero do Apartamento
+	public ArrayList<Apartamentos> consultaNomeTitular (String nome){
+		Apartamentos a;
+		String sql = null;
+		ArrayList<Apartamentos> aLAp = new ArrayList<Apartamentos>();
+		try{
+			if (nome.equals("") || nome.length() == 0 || nome.isEmpty()){
+				sql = "SELECT * FROM tb_apartamentos ORDER BY nome_titular";
+			}else{
+				sql = "SELECT * FROM tb_apartamentos WHERE nome_titular LIKE ";
+				sql += "'%"+nome+"%' ORDER BY nome_titular";
+			}
+			st = conn.createStatement();
+			rs = st.executeQuery(sql);
+			while (rs.next()){
+				a = new Apartamentos();
+				a.setNum_apto(rs.getInt("num_apto"));
+				a.setNome_titular(rs.getString("nome_titular"));
+				a.setTelefone_titular(rs.getString("telefone_titular"));
+				aLAp.add(a);
+			}
+		}catch (SQLException e){
+			return null;
+		}
+		return aLAp;
+	}
 }
