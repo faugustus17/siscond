@@ -2,7 +2,7 @@ package com.siscond.util;
 
 public class MenuAuxiliar {
 	public enum TipoPesquisaAp{
-		SEL("Selecione"),
+		/*SEL("Selecione"),*/
 		PORNUMAP("Número do Apartamento"),
 		PORNOME("Nome do Proprietário");
 		
