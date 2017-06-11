@@ -1,20 +1,36 @@
 package com.siscond.application;
 	
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-
 
 public class Main extends Application {
+	public Stage stage;
+	private static Stage primaryStage;
+	private static Class<? extends Main> thisClass;
+	
+	public Main(){
+		thisClass = getClass();
+	}
+	
 	@Override
 	public void start(Stage primaryStage) {
+		Main.primaryStage = primaryStage;
 		try {
-			BorderPane root = new BorderPane();
+			Parent root = FXMLLoader.load(getClass().getResource("/com/siscond/view/Apartamentos.fxml"));
+			Scene scene = new Scene(root);
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("CADASTRO DE APARTAMENTOS");
+			primaryStage.show();
+			
+			
+			/*BorderPane root = new BorderPane();
 			Scene scene = new Scene(root,400,400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
-			primaryStage.show();
+			primaryStage.show();*/
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -22,5 +38,23 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		launch(args);
+	}
+	
+	/**
+	 * 
+	 * @param nameFile
+	 * @param titlePage
+	 */
+	public static void loadScene(String nameFile, String titlePage){
+		Parent root;
+		try{
+			root = FXMLLoader.load(thisClass.getClass().getResource(nameFile));
+			Scene scene = new Scene(root);
+			primaryStage.setScene(scene);
+			primaryStage.setTitle(titlePage);
+			primaryStage.show();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

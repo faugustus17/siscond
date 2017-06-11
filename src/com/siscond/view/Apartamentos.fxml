@@ -116,15 +116,15 @@
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <Button fx:id="btPesq" mnemonicParsing="false" onAction="#onActionPesq" prefHeight="25.0" prefWidth="134.0" text="Pesquisar" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <TextField fx:id="txtPesq" alignment="CENTER" promptText="Informe o dado a ser pesquisado" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                    <Button fx:id="btPesq" disable="true" mnemonicParsing="false" onAction="#onActionPesq" prefHeight="25.0" prefWidth="134.0" text="Pesquisar" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <TextField fx:id="txtPesq" alignment="CENTER" promptText="Selecione o tipo de pesquisa" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                        <GridPane.margin>
                                           <Insets left="20.0" />
                                        </GridPane.margin>
                                     </TextField>
                                  </children>
                               </GridPane>
-                              <TableView layoutX="20.0" layoutY="136.0" prefHeight="326.0" prefWidth="660.0">
+                              <TableView fx:id="tabView" layoutX="20.0" layoutY="136.0" prefHeight="326.0" prefWidth="660.0">
                                 <columns>
                                   <TableColumn fx:id="colApto" prefWidth="144.0" text="Apartamento" />
                                   <TableColumn fx:id="colProp" minWidth="6.0" prefWidth="515.0" text="Propriétario" />
