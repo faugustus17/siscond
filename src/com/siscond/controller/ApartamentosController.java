@@ -26,12 +26,11 @@ import com.siscond.modelo.Apartamentos;
 import com.siscond.util.MenuAuxiliar;
 import com.siscond.util.MenuAuxiliar.TipoPesquisaAp;
 import com.siscond.util.Util;
+import com.siscond.util.Validacoes;
 
 import javafx.fxml.Initializable;
 
 public class ApartamentosController implements Initializable{
-	
-	ObservableList<String> itens;
 
 	@FXML
 	private TabPane tabPane;
@@ -106,7 +105,20 @@ public class ApartamentosController implements Initializable{
 	@FXML
 	void onActionBtCadastrar(ActionEvent event) {
 		String msg = "";
+		//Validacoes v = new Validacoes();
 		ApartamentosDao aD = new ApartamentosDao();
+		if(Util.stringVaziaOuNula(this.txtNumApto.getText())){
+			msg = "Informe o NUMERO DO APARTAMENTO";
+		}
+		if(Util.stringVaziaOuNula(this.txtNomeProp.getText())){
+			msg += "\nInforme o NOME DO PROPRIETARIO";
+		}
+		if(Util.stringVaziaOuNula(this.txtTelefone.getText())){
+			msg += "\nInforme o TELEFONE";
+		}
+		if(aD.consultaApto(Integer.parseInt(this.txtNumApto.getText())) == 1){
+			msg += "\nApartamento já Cadastrado";
+		}
 		if(msg.equals("")){
 			Apartamentos a = new Apartamentos();
 			a.setNum_apto(Integer.parseInt(this.txtNumApto.getText()));
@@ -145,7 +157,6 @@ public class ApartamentosController implements Initializable{
 
 	@FXML
 	void onActionCmbPesq(ActionEvent event) {
-		//this.preencheCmbBox();
 		String s = cmbPesq.getSelectionModel().getSelectedItem().toString();
 		if(s == null||s.isEmpty()){
 			s = "Selecione";
@@ -171,7 +182,6 @@ public class ApartamentosController implements Initializable{
 
 	@FXML
 	void onActionPesq(ActionEvent event) {
-		//this.btPesq.setDisable(true);
 		String consulta = this.txtPesq.getText();
 		if (consulta == null){
 			consulta = "";
@@ -204,9 +214,11 @@ public class ApartamentosController implements Initializable{
 			public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
 				String s = observable.getValue().getText();
 				if (s.equals("Pesquisa")){
+					cmbPesq.getItems().clear();
 					cmbPesq.getItems().remove(0, cmbPesq.getItems().size());
 					cmbPesq.setItems(FXCollections.observableArrayList(TipoPesquisaAp.values()));
 					tabView.getItems().clear();
+					txtPesq.setPromptText("Selecione o tipo de pesquisa");
 					btPesq.setDisable(true);
 				}
 			}
@@ -227,6 +239,37 @@ public class ApartamentosController implements Initializable{
 						Util.mensagemErro("Erro: "+e.getMessage());
 					}
 				}	
+			}
+		});
+		
+		//Cria mascara de entrada para o telefone
+		this.txtTelefone.lengthProperty().addListener(new ChangeListener<Number>(){
+			@Override
+			public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
+				String mascara = "(##)-#####-####";
+				String alphaAndDigits = txtTelefone.getText().replaceAll("[\\(\\)\\-]", "");
+				StringBuilder resultado = new StringBuilder();
+				int i = 0;
+				int quant = 0;
+				if(arg2.intValue() > arg1.intValue()){
+					if(txtTelefone.getText().length() <= mascara.length()){
+						while(i<mascara.length()){
+							if(quant < alphaAndDigits.length()){
+								if("#".equals(mascara.substring(i, i+1))){
+									resultado.append(alphaAndDigits.substring(quant, quant+1));
+									quant++;
+								}else{
+									resultado.append(mascara.substring(i, i+1));
+								}
+							}
+							i++;
+						}
+						txtTelefone.setText(resultado.toString());
+					}
+					if(txtTelefone.getText().length() > mascara.length()){
+						txtTelefone.setText(txtTelefone.getText(0, mascara.length()));
+					}
+				}
 			}
 		});
 		
