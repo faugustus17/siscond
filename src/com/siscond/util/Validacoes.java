@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.InputMismatchException;
 
+
 public class Validacoes {
 	public boolean valData(String data){
         String datePattern = "^(?:(31)(\\D)(0?[13578]|1[02])\\2|(29|30)(\\D)(0?[13-9]|1[0-2])\\5|" +
@@ -21,6 +22,19 @@ public class Validacoes {
         }
         return isDataValida;
     }
+	
+	public boolean valNumero(String numero){
+		/*String datePattern = "/[0-9]/";
+        boolean isNumVal = false;
+        if(numero != null && numero.length() > 0) {
+            if (numero.matches(datePattern)) {
+                isNumVal = true;
+            }
+        }
+        return isNumVal;*/
+		//Pattern p = Pattern.compile("[0-9]");
+		return numero.matches("[0-9]");
+	}
 
     public boolean verificaVencimentoData(String data) throws ParseException {
         boolean isDataValida;

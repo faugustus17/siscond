@@ -15,19 +15,17 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
-
+import javafx.util.converter.IntegerStringConverter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
 import com.siscond.dao.ApartamentosDao;
 import com.siscond.modelo.Apartamentos;
 import com.siscond.util.MenuAuxiliar;
 import com.siscond.util.MenuAuxiliar.TipoPesquisaAp;
 import com.siscond.util.Util;
-import com.siscond.util.Validacoes;
-
 import javafx.fxml.Initializable;
 
 public class ApartamentosController implements Initializable{
@@ -87,6 +85,18 @@ public class ApartamentosController implements Initializable{
 	void onActionBtAlterar(ActionEvent event) {
 		String msg = "";
 		ApartamentosDao aD = new ApartamentosDao();
+		if(Util.stringVaziaOuNula(this.txtNumApto.getText())){
+			msg = "Informe o NUMERO DO APARTAMENTO";
+		}
+		if(Util.stringVaziaOuNula(this.txtNomeProp.getText())){
+			msg += "\nInforme o NOME DO PROPRIETARIO";
+		}
+		if(Util.stringVaziaOuNula(this.txtTelefone.getText())){
+			msg += "\nInforme o TELEFONE";
+		}
+		if(aD.consultaApto(Integer.parseInt(this.txtNumApto.getText())) == 1){
+			msg += "\nApartamento já Cadastrado";
+		}
 		if(msg.equals("")){
 			Apartamentos a = new Apartamentos();
 			a.setNum_apto(Integer.parseInt(this.txtNumApto.getText()));
@@ -99,13 +109,14 @@ public class ApartamentosController implements Initializable{
 			}else{
 				Util.mensagemErro("Erro, alteração não pôde ser feita!");
 			}
+		}else{
+			Util.mensagemErro(msg);
 		}
 	}
 
 	@FXML
 	void onActionBtCadastrar(ActionEvent event) {
 		String msg = "";
-		//Validacoes v = new Validacoes();
 		ApartamentosDao aD = new ApartamentosDao();
 		if(Util.stringVaziaOuNula(this.txtNumApto.getText())){
 			msg = "Informe o NUMERO DO APARTAMENTO";
@@ -133,6 +144,8 @@ public class ApartamentosController implements Initializable{
 			}else if(retorno == 2){
 				Util.mensagemInformacao("Apartamento já cadastrado!");
 			}
+		}else{
+			Util.mensagemErro(msg);
 		}
 	}
 
@@ -241,6 +254,9 @@ public class ApartamentosController implements Initializable{
 				}	
 			}
 		});
+		
+		TextFormatter<Integer> textFormatter = new TextFormatter<Integer>(new IntegerStringConverter());
+		this.txtNumApto.textFormatterProperty().setValue(textFormatter);
 		
 		//Cria mascara de entrada para o telefone
 		this.txtTelefone.lengthProperty().addListener(new ChangeListener<Number>(){
