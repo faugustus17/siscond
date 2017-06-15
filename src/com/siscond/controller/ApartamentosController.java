@@ -23,8 +23,6 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import com.siscond.dao.ApartamentosDao;
 import com.siscond.modelo.Apartamentos;
-import com.siscond.util.MenuAuxiliar;
-import com.siscond.util.MenuAuxiliar.TipoPesquisaAp;
 import com.siscond.util.Util;
 import javafx.fxml.Initializable;
 
@@ -67,7 +65,7 @@ public class ApartamentosController implements Initializable{
 	private Tab tabPesq;
 
 	@FXML
-	private ComboBox<MenuAuxiliar.TipoPesquisaAp> cmbPesq;
+	private ComboBox<String> cmbPesq;
 
 	@FXML
 	private Button btPesq;
@@ -229,7 +227,11 @@ public class ApartamentosController implements Initializable{
 				if (s.equals("Pesquisa")){
 					cmbPesq.getItems().clear();
 					cmbPesq.getItems().remove(0, cmbPesq.getItems().size());
-					cmbPesq.setItems(FXCollections.observableArrayList(TipoPesquisaAp.values()));
+					ObservableList<String> op =
+							FXCollections.observableArrayList(
+									"Número do Apartamento",
+									"Nome do Proprietário");
+					cmbPesq.setItems(op);
 					tabView.getItems().clear();
 					txtPesq.setPromptText("Selecione o tipo de pesquisa");
 					btPesq.setDisable(true);
@@ -262,8 +264,8 @@ public class ApartamentosController implements Initializable{
 		this.txtTelefone.lengthProperty().addListener(new ChangeListener<Number>(){
 			@Override
 			public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
-				String mascara = "(##)-#####-####";
-				String alphaAndDigits = txtTelefone.getText().replaceAll("[\\(\\)\\-]", "");
+				String mascara = "(##)#####-####";
+				String alphaAndDigits = txtTelefone.getText().replaceAll("[\\(\\)\\]", "");
 				StringBuilder resultado = new StringBuilder();
 				int i = 0;
 				int quant = 0;
@@ -289,12 +291,6 @@ public class ApartamentosController implements Initializable{
 			}
 		});
 		
-	}
-	
-	//Metodo para preenchimento da ComboBox da Pesquisa
-	public void preencheCmbBox(){
-		this.cmbPesq.getItems().remove(0, this.cmbPesq.getItems().size());
-		this.cmbPesq.setItems(FXCollections.observableArrayList(TipoPesquisaAp.values()));
 	}
 	
 	//Metodo de preenchimento da aba Cadastro com os dados buscados
