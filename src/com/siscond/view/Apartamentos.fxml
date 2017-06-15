@@ -17,8 +17,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="com.siscond.controller.ApartamentosController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.siscond.controller.ApartamentosController">
    <children>
       <Pane prefHeight="500.0" prefWidth="700.0">
          <children>
@@ -39,14 +38,8 @@
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <TextField fx:id="txtNumApto" maxWidth="245.0" GridPane.columnIndex="1" />
-                                    <TextField fx:id="txtTelefone" maxWidth="245.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <Label text="Número do Apartamento:" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
-                                       <GridPane.margin>
-                                          <Insets right="20.0" />
-                                       </GridPane.margin>
-                                    </Label>
-                                    <Label text="Telefone do Proprietário:" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                                    <TextField fx:id="txtNumApto" maxWidth="245.0" prefHeight="25.0" prefWidth="183.0" GridPane.columnIndex="1" />
+                                    <Label text="Código do Lançamento:" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
                                        <GridPane.margin>
                                           <Insets right="20.0" />
                                        </GridPane.margin>
@@ -57,6 +50,12 @@
                                        </GridPane.margin>
                                     </Label>
                                     <TextField fx:id="txtNomeProp" maxWidth="480.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label text="Telefone do Proprietário:" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                                       <GridPane.margin>
+                                          <Insets right="20.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <TextField fx:id="txtTelefone" maxWidth="245.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                  </children>
                               </GridPane>
                               <Separator layoutY="360.0" prefHeight="0.0" prefWidth="700.0" />
@@ -91,13 +90,13 @@
                         <Pane prefHeight="200.0" prefWidth="200.0">
                            <children>
                               <GridPane layoutY="7.0" prefHeight="50.0" prefWidth="700.0">
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="453.0" minWidth="10.0" prefWidth="440.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="387.0" minWidth="10.0" prefWidth="260.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="453.0" minWidth="10.0" prefWidth="440.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="387.0" minWidth="10.0" prefWidth="260.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
                                  <children>
                                     <Label text="Escolha o tipo de pesquisa: " GridPane.halignment="RIGHT" GridPane.valignment="CENTER" />
                                     <ComboBox fx:id="cmbPesq" nodeOrientation="LEFT_TO_RIGHT" onAction="#onActionCmbPesq" prefHeight="25.0" prefWidth="219.0" promptText="Selecione" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
@@ -108,13 +107,13 @@
                                  </children>
                               </GridPane>
                               <GridPane layoutY="64.0" prefHeight="50.0" prefWidth="700.0">
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="597.0" minWidth="10.0" prefWidth="525.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="344.0" minWidth="10.0" prefWidth="175.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="597.0" minWidth="10.0" prefWidth="525.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="344.0" minWidth="10.0" prefWidth="175.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
                                  <children>
                                     <Button fx:id="btPesq" disable="true" mnemonicParsing="false" onAction="#onActionPesq" prefHeight="25.0" prefWidth="134.0" text="Pesquisar" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                     <TextField fx:id="txtPesq" alignment="CENTER" promptText="Selecione o tipo de pesquisa" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
@@ -125,10 +124,10 @@
                                  </children>
                               </GridPane>
                               <TableView fx:id="tabView" layoutX="20.0" layoutY="136.0" prefHeight="326.0" prefWidth="660.0">
-                                <columns>
-                                  <TableColumn fx:id="colApto" prefWidth="144.0" text="Apartamento" />
-                                  <TableColumn fx:id="colProp" minWidth="6.0" prefWidth="515.0" text="Propriétario" />
-                                </columns>
+                                 <columns>
+                                    <TableColumn fx:id="colApto" prefWidth="144.0" text="Apartamento" />
+                                    <TableColumn fx:id="colProp" minWidth="6.0" prefWidth="515.0" text="Propriétario" />
+                                 </columns>
                               </TableView>
                            </children>
                         </Pane>
