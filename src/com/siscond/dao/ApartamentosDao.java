@@ -26,6 +26,7 @@ public class ApartamentosDao {
 				retorno = 1;
 			}else{
 				//Apartamento não encontrado
+				retorno = 2;
 			}
 			return retorno;
 		}catch (SQLException e){
@@ -127,7 +128,7 @@ public class ApartamentosDao {
 		return aLAp;
 	}
 	
-	//Consulta e lista pelo Numero do Apartamento
+	//Consulta e lista pelo Nome do Proprietário
 	public ArrayList<Apartamentos> consultaNomeTitular (String nome){
 		Apartamentos a;
 		String sql = null;
