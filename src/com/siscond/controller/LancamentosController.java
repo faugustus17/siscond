@@ -167,7 +167,8 @@ public class LancamentosController implements Initializable{
 	@FXML
 	void onActionCmbPesq(ActionEvent event) {
 		this.preencheCmbPesq();
-		String s = cmbPesq.getSelectionModel().getSelectedItem().toString();
+		String s = "";
+		s = cmbPesq.getSelectionModel().getSelectedItem().toString();
 		if(s == null||s.isEmpty()){
 			s = "Selecione";
 		}else{
@@ -214,7 +215,6 @@ public class LancamentosController implements Initializable{
 				Util.mensagemInformacao("Item pesquisado não foi encontrado!");
 			}
 		}
-
 	}
 
 	@Override

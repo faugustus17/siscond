@@ -108,9 +108,9 @@ public class ReservasDao {
 		boolean retorno = false;
 		String sql = null;
 		try{
-			sql = "UPDATE tb_reservas SET";
+			sql = "UPDATE tb_reservas SET ";
 			sql += "data_reserva= '"+Util.rsDataBD(reservas.getData_reserva())+"', ";
-			sql += "horario_inicial= '"+reservas.getHorario_inicial()+"'";
+			sql += "horario_inicial= '"+reservas.getHorario_inicial()+"', ";
 			sql += "horario_final= '"+reservas.getHorario_final()+"', ";
 			sql += "num_apto= "+reservas.getNum_apto()+", ";
 			sql += " WHERE cod_reserva = "+reservas.getCod_reserva();
@@ -134,7 +134,7 @@ public class ReservasDao {
 		boolean retorno = false;
 		String sql = null;
 		try{
-			sql =" DELETE FROM tb_reservas WHERE num_apto = "+reserva.getCod_reserva();
+			sql ="DELETE FROM tb_reservas WHERE cod_reserva = "+reserva.getCod_reserva();
 			st = conn.createStatement();
 			int rst = st.executeUpdate(sql);
 			if (rst == 1){
@@ -175,7 +175,7 @@ public class ReservasDao {
 	}
 
 	//Consulta e lista pela Data da Reserva
-	public ArrayList<Reservas> consultaNomeTitular (Date data){
+	public ArrayList<Reservas> consultaData (Date data){
 		Reservas r;
 		String sql = null;
 		ArrayList<Reservas> aL = new ArrayList<Reservas>();
