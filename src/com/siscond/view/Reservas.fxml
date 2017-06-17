@@ -18,8 +18,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="com.siscond.controller.ReservasController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.siscond.controller.ReservasController">
    <children>
       <Pane prefHeight="500.0" prefWidth="700.0">
          <children>
@@ -42,7 +41,7 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <TextField fx:id="txtCodRes" maxWidth="245.0" prefHeight="25.0" prefWidth="183.0" GridPane.columnIndex="1" />
+                                    <TextField fx:id="txtCodRes" editable="false" maxWidth="245.0" prefHeight="25.0" prefWidth="183.0" GridPane.columnIndex="1" />
                                     <Label text="Código da Reserva:" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
                                        <GridPane.margin>
                                           <Insets right="20.0" />

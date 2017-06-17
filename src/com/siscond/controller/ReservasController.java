@@ -1,7 +1,6 @@
 package com.siscond.controller;
 
 import java.net.URL;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -22,9 +21,7 @@ import javafx.scene.layout.Pane;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
-
 import com.siscond.dao.ReservasDao;
-
 import com.siscond.modelo.Reservas;
 import com.siscond.util.Util;
 import javafx.fxml.Initializable;
@@ -95,12 +92,78 @@ public class ReservasController implements Initializable{
 
 	@FXML
 	void onActionBtAlterar(ActionEvent event) {
-
+		String msg = "";
+		ReservasDao rD = new ReservasDao();
+		if(Util.stringVaziaOuNula(this.dtPic.getPromptText())){
+			msg += "\nInforme uma Data de Reserva";
+		}
+		if(Util.stringVaziaOuNula(this.txtHrIn.getText())){
+			msg += "\nInforme a Hora Inicial da Reserva";
+		}
+		if(Util.stringVaziaOuNula(this.txtHrFi.getText())){
+			msg += "\nInforme a Hora Final da Reserva";
+		}
+		if(Util.stringVaziaOuNula(this.txtNumApto.getText())){
+			msg += "\nInforme o Número do Apartamento";
+		}
+		if(msg.equals("")){
+			Reservas r = new Reservas();
+			r.setCod_reserva(Integer.parseInt(this.txtCodRes.getText()));
+			r.setData_reserva(Util.dataF(this.dtPic.getPromptText()));
+			r.setHorario_inicial(this.txtHrIn.getText());
+			r.setHorario_inicial(this.txtHrFi.getText());
+			r.setNum_apto(Integer.parseInt(this.txtNumApto.getText()));
+			boolean retorno = rD.alteraReserva(r);
+			if(retorno){
+				Util.mensagemInformacao("ALteração realizada com sucesso!");
+				this.limpaTela();
+			}else{
+				Util.mensagemErro("Erro, alteração não pôde ser feita!");
+			}
+		}else{
+			Util.mensagemErro(msg);
+		}
 	}
 
 	@FXML
 	void onActionBtCadastrar(ActionEvent event) {
-
+		String msg = "";
+		ReservasDao rD = new ReservasDao();
+		if(Util.stringVaziaOuNula(this.dtPic.getPromptText())){
+			msg += "\nInforme uma Data de Reserva";
+		}
+		if(Util.stringVaziaOuNula(this.txtHrIn.getText())){
+			msg += "\nInforme a Hora Inicial da Reserva";
+		}
+		if(Util.stringVaziaOuNula(this.txtHrFi.getText())){
+			msg += "\nInforme a Hora Final da Reserva";
+		}
+		if(Util.stringVaziaOuNula(this.txtNumApto.getText())){
+			msg += "\nInforme o Número do Apartamento";
+		}
+		if(rD.consultaDtRes(Util.dataF(this.dtPic.getPromptText())) == 1 
+				&& (rD.consultaHoraInRes(this.txtHrIn.getText()) == 1
+				|| rD.consultaHoraFimRes(this.txtHrFi.getText()) == 1)){
+			msg += "\nReserva já feita para essa Dia/Horário";
+		}
+		if(msg.equals("")){
+			Reservas r = new Reservas();
+			r.setData_reserva(Util.dataF(this.dtPic.getPromptText()));
+			r.setHorario_inicial(this.txtHrIn.getText());
+			r.setHorario_inicial(this.txtHrFi.getText());
+			r.setNum_apto(Integer.parseInt(this.txtNumApto.getText()));
+			int retorno = rD.incluiReserva(r);
+			if(retorno == 1){
+				Util.mensagemInformacao("Inclusão realizada com sucesso!");
+				this.limpaTela();
+			}else if(retorno == 0){
+				Util.mensagemErro("Erro, inclusão não pôde ser feita!");
+			}else if(retorno == 2){
+				Util.mensagemInformacao("Lançamento já cadastrado!");
+			}
+		}else{
+			Util.mensagemErro(msg);
+		}
 	}
 
 	@FXML
@@ -177,8 +240,35 @@ public class ReservasController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		//Populando as ComboBox Pesq
+		this.tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
+			@Override
+			public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
+				if(newValue == tabPesq){
+					preencheCmbPesq();
+				}
+			}
+		});
 		
-		
+		//Preencher a aba Cadastro ao clicar no item da TableView
+		this.tabView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>() {
+			@Override
+			public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+				if(tabView.getSelectionModel().selectedItemProperty() != null){
+					Reservas r = new Reservas();
+					r.setCod_reserva(tabView.getSelectionModel().getSelectedItem().getCod_reserva());
+					r.setData_reserva(tabView.getSelectionModel().getSelectedItem().getData_reserva());
+					r.setHorario_inicial(tabView.getSelectionModel().getSelectedItem().getHorario_inicial());
+					r.setHorario_final(tabView.getSelectionModel().getSelectedItem().getHorario_final());
+					r.setNum_apto(tabView.getSelectionModel().getSelectedItem().getNum_apto());
+					try{
+						preencheAbaCad(r);
+					}catch (Exception e){
+						Util.mensagemErro("Erro: "+e.getMessage());
+					}
+				}	
+			}
+		});
 		
 		//Cria mascara de entrada para o horario inicial
 		this.txtHrIn.lengthProperty().addListener(new ChangeListener<Number>(){
