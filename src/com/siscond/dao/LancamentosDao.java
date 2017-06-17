@@ -42,7 +42,7 @@ public class LancamentosDao {
 			retorno = 2;
 		}else{
 			try{
-				sql = "INSERT INTO tb_lancamentos(descricao_lancamento, tipo_lancamento) VALUES( '";
+				sql = "INSERT INTO tb_lancamentos(descricao_lancamento, tipo_lancamento) VALUES ('";
 				sql += lcto.getDescricao_lancamento() +"', '"+lcto.getTipo_lancamento()+"')";
 				st = conn.createStatement();
 				int rst = st.executeUpdate(sql);
@@ -65,7 +65,7 @@ public class LancamentosDao {
 		boolean retorno = false;
 		String sql = null;
 		try{
-			sql = "UPDATE tb_lancamentos SET";
+			sql = "UPDATE tb_lancamentos SET ";
 			sql += "descricao_lancamento= '"+lcto.getDescricao_lancamento()+"', ";
 			sql += "tipo_lancamento= '"+lcto.getTipo_lancamento()+"'";
 			sql += " WHERE cod_lancamento = "+lcto.getCod_lancamento();
@@ -89,7 +89,7 @@ public class LancamentosDao {
 		boolean retorno = false;
 		String sql = null;
 		try{
-			sql =" DELETE FROM tb_lancamentos WHERE cod_lancamento = "+lcto.getCod_lancamento();
+			sql = "DELETE FROM tb_lancamentos WHERE cod_lancamento = "+lcto.getCod_lancamento();
 			st = conn.createStatement();
 			int rst = st.executeUpdate(sql);
 			if (rst == 1){

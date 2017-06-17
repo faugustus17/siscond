@@ -172,7 +172,6 @@ public class ApartamentosController implements Initializable{
 		if(s == null||s.isEmpty()){
 			s = "Selecione";
 		}else{
-			System.out.println(s);
 			if(s.equals("Número do Apartamento")){
 				this.txtPesq.setPromptText("Informe o número do apartamento");
 				this.btPesq.setDisable(false);
@@ -226,7 +225,6 @@ public class ApartamentosController implements Initializable{
 				String s = observable.getValue().getText();
 				if (s.equals("Pesquisa")){
 					cmbPesq.getItems().clear();
-					cmbPesq.getItems().remove(0, cmbPesq.getItems().size());
 					ObservableList<String> op =
 							FXCollections.observableArrayList(
 									"Número do Apartamento",
@@ -257,6 +255,7 @@ public class ApartamentosController implements Initializable{
 			}
 		});
 		
+		//Metodo para aceitar somente numeros
 		TextFormatter<Integer> textFormatter = new TextFormatter<Integer>(new IntegerStringConverter());
 		this.txtNumApto.textFormatterProperty().setValue(textFormatter);
 		
