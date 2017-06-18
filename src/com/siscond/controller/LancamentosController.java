@@ -92,9 +92,6 @@ public class LancamentosController implements Initializable{
 		if(Util.stringVaziaOuNula(this.txtDesc.getText())){
 			msg += "\nInforme a DESCRICÃO";
 		}
-		if(this.cmbTipo.getPromptText().equals("Selecione")){
-			msg += "\nInforme o TIPO DO LANÇAMENTO";
-		}
 		if(msg.equals("")){
 			Lancamentos l = new Lancamentos();
 			l.setCod_lancamento(Integer.parseInt(this.txtCodLan.getText()));
@@ -118,9 +115,6 @@ public class LancamentosController implements Initializable{
 		LancamentosDao lD = new LancamentosDao();
 		if(Util.stringVaziaOuNula(this.txtDesc.getText())){
 			msg += "\nInforme a DESCRICÃO";
-		}
-		if(this.cmbTipo.getPromptText().equals("Selecione")){
-			msg += "\nInforme o TIPO DO LANÇAMENTO";
 		}
 		if(msg.equals("")){
 			Lancamentos l = new Lancamentos();
@@ -219,6 +213,8 @@ public class LancamentosController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		this.preencheCmbPesq();
+		this.preencheCmbTipo();
 		//Populando as ComboBox Tipo
 		this.tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
 			@Override

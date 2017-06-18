@@ -39,7 +39,7 @@
                                 </rowConstraints>
                                  <children>
                                     <TextField fx:id="txtNumApto" maxWidth="245.0" prefHeight="25.0" prefWidth="183.0" GridPane.columnIndex="1" />
-                                    <Label text="Código do Lançamento:" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+                                    <Label text="Número do Apartamento:" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
                                        <GridPane.margin>
                                           <Insets right="20.0" />
                                        </GridPane.margin>

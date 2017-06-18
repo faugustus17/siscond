@@ -92,9 +92,6 @@ public class ApartamentosController implements Initializable{
 		if(Util.stringVaziaOuNula(this.txtTelefone.getText())){
 			msg += "\nInforme o TELEFONE";
 		}
-		if(aD.consultaApto(Integer.parseInt(this.txtNumApto.getText())) == 1){
-			msg += "\nApartamento já Cadastrado";
-		}
 		if(msg.equals("")){
 			Apartamentos a = new Apartamentos();
 			a.setNum_apto(Integer.parseInt(this.txtNumApto.getText()));
@@ -264,7 +261,7 @@ public class ApartamentosController implements Initializable{
 			@Override
 			public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
 				String mascara = "(##)#####-####";
-				String alphaAndDigits = txtTelefone.getText().replaceAll("[\\(\\)\\]", "");
+				String alphaAndDigits = txtTelefone.getText().replaceAll("[\\(\\)\\-]", "");
 				StringBuilder resultado = new StringBuilder();
 				int i = 0;
 				int quant = 0;
