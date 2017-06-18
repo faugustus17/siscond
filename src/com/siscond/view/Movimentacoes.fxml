@@ -18,8 +18,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="com.siscond.controller.MovimentacoesController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.siscond.controller.MovimentacoesController">
    <children>
       <Pane prefHeight="500.0" prefWidth="700.0">
          <children>
@@ -77,8 +76,8 @@
                                           <Insets right="20.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <ComboBox fx:id="cmbLan" onAction="#onActionCmbLan" prefHeight="25.0" prefWidth="423.0" promptText="Selecione" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                                    <ComboBox fx:id="cmbNumApto" onAction="#onActionNumApto" prefWidth="150.0" promptText="Apartamento" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <ComboBox fx:id="cmbLan" prefHeight="25.0" prefWidth="423.0" promptText="Selecione" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <ComboBox fx:id="cmbNumApto" prefWidth="150.0" promptText="Apartamento" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                  </children>
                               </GridPane>
                               <Separator layoutY="360.0" prefHeight="0.0" prefWidth="700.0" />

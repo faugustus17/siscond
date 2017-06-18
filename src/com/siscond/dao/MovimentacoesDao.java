@@ -35,7 +35,7 @@ public class MovimentacoesDao {
 	}*/
 
 	//Inclusão no BD
-	public int incluiApto(Movimentacoes mov){
+	public int incluiMov(Movimentacoes mov){
 		int retorno = 0;
 		String sql= null;
 		//Verifica se Apartamento já esta cadastrado
@@ -89,7 +89,7 @@ public class MovimentacoesDao {
 	}
 
 	//Exclusão no BD
-	public boolean excluiApto(Movimentacoes mov){
+	public boolean excluiMov(Movimentacoes mov){
 		boolean retorno = false;
 		String sql = null;
 		try{

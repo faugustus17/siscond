@@ -98,22 +98,112 @@ public class MovimentacoesController implements Initializable{
 
 	@FXML
 	void onActionBtAlterar(ActionEvent event) {
-
+		String msg = "";
+		Lancamentos l = new Lancamentos();
+		MovimentacoesDao mD = new MovimentacoesDao();
+		if(Util.stringVaziaOuNula(this.dtPic.getPromptText())){
+			msg += "\nInforme uma Data de Reserva";
+		}
+		if(Util.stringVaziaOuNula(this.txtValor.getText())){
+			msg += "\nInforme o Valor";
+		}
+		if(Util.stringVaziaOuNula(this.txtNumDoc.getText())){
+			msg += "\nInforme o Número do Documento";
+		}
+		if(this.cmbNumApto.getPromptText().equals("Apartamento")){
+			msg += "\nInforme o Número do Apartamento";
+		}
+		if(this.cmbLan.getPromptText().equals("Selecione")){
+			msg += "\nInforme um Lançamento";
+		}
+		if(msg.equals("")){
+			Movimentacoes m = new Movimentacoes();
+			m.setCod_lancamento(Integer.parseInt(this.txtCodMov.getText()));
+			m.setData_movimentacao(Util.dataF(this.dtPic.getPromptText()));
+			m.setValor(Float.parseFloat(this.txtValor.getText()));
+			m.setNum_documento(Integer.parseInt(this.txtNumDoc.getText()));
+			m.setNum_apto(Integer.parseInt(this.cmbNumApto.getPromptText()));
+			String s = this.cmbLan.getSelectionModel().getSelectedItem();
+			if (s == null){
+				s = this.cmbLan.getPromptText();
+			}
+			l = this.objLcto(s);
+			m.setCod_lancamento(l.getCod_lancamento());
+			boolean retorno = mD.alteraMov(m);
+			if(retorno){
+				Util.mensagemInformacao("Alteração realizada com sucesso!");
+				this.limpaTela();
+			}else if(retorno){
+				Util.mensagemErro("Erro, alteração não pôde ser feita!");
+			}
+		}else{
+			Util.mensagemErro(msg);
+		}
 	}
 
 	@FXML
 	void onActionBtCadastrar(ActionEvent event) {
-
+		String msg = "";
+		Lancamentos l = new Lancamentos();
+		MovimentacoesDao mD = new MovimentacoesDao();
+		if(Util.stringVaziaOuNula(this.dtPic.getPromptText())){
+			msg += "\nInforme uma Data de Reserva";
+		}
+		if(Util.stringVaziaOuNula(this.txtValor.getText())){
+			msg += "\nInforme o Valor";
+		}
+		if(Util.stringVaziaOuNula(this.txtNumDoc.getText())){
+			msg += "\nInforme o Número do Documento";
+		}
+		if(this.cmbNumApto.getPromptText().equals("Apartamento")){
+			msg += "\nInforme o Número do Apartamento";
+		}
+		if(this.cmbLan.getPromptText().equals("Selecione")){
+			msg += "\nInforme um Lançamento";
+		}
+		if(msg.equals("")){
+			Movimentacoes m = new Movimentacoes();
+			m.setData_movimentacao(Util.dataF(this.dtPic.getPromptText()));
+			m.setValor(Float.parseFloat(this.txtValor.getText()));
+			m.setNum_documento(Integer.parseInt(this.txtNumDoc.getText()));
+			m.setNum_apto(Integer.parseInt(this.cmbNumApto.getPromptText()));
+			String s = this.cmbLan.getSelectionModel().getSelectedItem();
+			if (s == null){
+				s = this.cmbLan.getPromptText();
+			}
+			l = this.objLcto(s);
+			m.setCod_lancamento(l.getCod_lancamento());
+			int retorno = mD.incluiMov(m);
+			if(retorno == 1){
+				Util.mensagemInformacao("Inclusão realizada com sucesso!");
+				this.limpaTela();
+			}else if(retorno == 0){
+				Util.mensagemErro("Erro, inclusão não pôde ser feita!");
+			}else if(retorno == 2){
+				Util.mensagemInformacao("Lançamento já cadastrado!");
+			}
+		}else{
+			Util.mensagemErro(msg);
+		}
 	}
 
 	@FXML
 	void onActionBtExcluir(ActionEvent event) {
-
-	}
-
-	@FXML
-	void onActionCmbLan(ActionEvent event) {
-
+		if(Util.stringVaziaOuNula(this.txtCodMov.getText())){
+			Util.mensagemErro("Informe o código da Movimentação a ser excluída!");
+		}else{
+			Movimentacoes m = new Movimentacoes();
+			MovimentacoesDao mD = new MovimentacoesDao();
+			if(!Util.stringVaziaOuNula(this.txtCodMov.getText())){
+				m.setCod_movimentacao(Integer.parseInt(this.txtCodMov.getText()));
+			}
+			boolean retorno = mD.excluiMov(m);
+			if(retorno){
+				Util.mensagemInformacao("Exclusão efetuada com sucesso!");
+			}else{
+				Util.mensagemErro("Erro, exclusão não pôde ser realizada!");
+			}
+		}
 	}
 
 	@FXML
@@ -142,11 +232,6 @@ public class MovimentacoesController implements Initializable{
 	@FXML
 	void onActionLimpar(ActionEvent event) {
 		this.limpaTela();
-	}
-
-	@FXML
-	void onActionNumApto(ActionEvent event) {
-
 	}
 
 	@FXML
