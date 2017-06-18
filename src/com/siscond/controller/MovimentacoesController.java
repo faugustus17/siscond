@@ -2,7 +2,8 @@ package com.siscond.controller;
 
 import java.net.URL;
 import java.sql.SQLException;
-
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -14,12 +15,11 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
-
 import com.siscond.dao.ApartamentosDao;
 import com.siscond.dao.LancamentosDao;
 import com.siscond.dao.MovimentacoesDao;
@@ -118,12 +118,30 @@ public class MovimentacoesController implements Initializable{
 
 	@FXML
 	void onActionCmbPesq(ActionEvent event) {
-
+		this.preencheCmbPesq();
+		String s = cmbPesq.getSelectionModel().getSelectedItem().toString();
+		if(s == null||s.isEmpty()){
+			s = "Selecione";
+		}else{
+			if(s.equals("Por Data")){
+				this.txtPesq.setPromptText("Informe uma Data de Movimentação no formato (dd/mm/aaaa)");
+				this.btPesq.setDisable(false);
+			}else if(s.equals("Código Lançamento")){
+				this.txtPesq.setPromptText("Informe o Código do Lançamento");
+				this.btPesq.setDisable(false);
+			}else if(s.equals("Número do Apartamento")){
+				this.txtPesq.setPromptText("Informe o Número do Apartamento");
+				this.btPesq.setDisable(false);
+			}else{
+				this.txtPesq.setPromptText("Selecione o tipo de pesquisa");
+				this.btPesq.setDisable(true);
+			}
+		}
 	}
 
 	@FXML
 	void onActionLimpar(ActionEvent event) {
-
+		this.limpaTela();
 	}
 
 	@FXML
@@ -133,7 +151,32 @@ public class MovimentacoesController implements Initializable{
 
 	@FXML
 	void onActionPesq(ActionEvent event) {
-
+		String consulta = this.txtPesq.getText();
+		if (consulta == null){
+			consulta = "";
+		}else{
+			ArrayList<Movimentacoes> al = new ArrayList<Movimentacoes>();
+			ObservableList<Movimentacoes> ob = FXCollections.observableArrayList(al);
+			this.tabView.setItems(ob);
+			MovimentacoesDao mD = new MovimentacoesDao();
+			String s = cmbPesq.getSelectionModel().getSelectedItem().toString();
+			if(s.equals("Por Data")){
+				al = mD.consultaData(Util.dataF(consulta));
+			}else if(s.equals("Código Lançamento")){
+				al = mD.consultaCodLcto(Integer.parseInt(consulta));
+			}else if(s.equals("Número do Apartamento")){
+				al = mD.consultaMovNumApto(Integer.parseInt(consulta));
+			}
+			ob = FXCollections.observableArrayList(al);
+			this.tabView.setItems(ob);
+			this.colDtMov.setCellValueFactory(new PropertyValueFactory<Movimentacoes, Date>("data_movimento"));
+			this.colNumApto.setCellValueFactory(new PropertyValueFactory<Movimentacoes, Integer>("num_apto"));
+			this.colDescLan.setCellValueFactory(new PropertyValueFactory<Movimentacoes, String>("cod_lancamento"));
+			this.colVal.setCellValueFactory(new PropertyValueFactory<Movimentacoes, Float>("valor"));
+			if(al.size() == 0){
+				Util.mensagemInformacao("Item pesquisado não foi encontrado!");
+			}
+		}
 	}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -209,6 +252,12 @@ public class MovimentacoesController implements Initializable{
 		selectionModel.select(this.tabCad);
 	}
 	
+	//Metodo para preencher a ComboBox Pesquisa
+	public void preencheCmbPesq(){
+		ObservableList<String> op = FXCollections.observableArrayList("Por Data", "Código Lançamento", "Número do Apartamento");
+		cmbPesq.setItems(op);
+	}
+	
 	public Lancamentos objLcto(String s){
 		Lancamentos l = new Lancamentos();
 		LancamentosDao lD = new LancamentosDao();
@@ -219,5 +268,21 @@ public class MovimentacoesController implements Initializable{
 		}
 		return l;
 	}
+	
+	//Metodo para limpar dados da tela
+	public void limpaTela(){
+		this.txtCodMov.setText("");
+		this.dtPic.setPromptText("");
+		this.txtValor.setText("");
+		this.txtNumDoc.setText("");
+		this.txtPesq.setText("");
+		this.cmbLan.getItems().clear();
+		this.cmbNumApto.getItems().clear();
+		this.cmbPesq.getItems().clear();
+		ArrayList<Movimentacoes> al = new ArrayList<Movimentacoes>();
+		ObservableList<Movimentacoes> ob = FXCollections.observableArrayList(al);
+		this.tabView.setItems(ob);
+	}
+
 
 }
