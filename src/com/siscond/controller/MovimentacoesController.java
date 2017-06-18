@@ -2,6 +2,9 @@ package com.siscond.controller;
 
 import java.net.URL;
 import java.sql.SQLException;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -265,7 +268,68 @@ public class MovimentacoesController implements Initializable{
 	}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
+		this.preencheCmbBoxLcto();
+		this.preencheCmbBoxNumApto();
+		this.preencheCmbPesq();
+		
+		//Preenche as ComboBox da Aba Cadastro
+		this.tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
+			@Override
+			public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
+				if(newValue == tabCad){
+					preencheCmbBoxLcto();
+					preencheCmbBoxNumApto();
+				}
+			}
+		});
+		
+		//Preenche a ComboBox da Aba Pesquisa
+		this.tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
+			@Override
+			public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
+				if(newValue == tabPesq){
+					preencheCmbPesq();
+				}
+			}
+		});
+		
+		this.cmbLan.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				Lancamentos l = new Lancamentos();
+				LancamentosDao lD = new LancamentosDao();
+				try{
+					l = lD.consultaPorLcto(newValue);
+				}catch (Exception e){
+					Util.mensagemErro("Erro: "+e.getMessage());
+				}
+				if (l != null){
+					
+				}
+			}
+		});
+		
+		//Alimenta a Aba Cadastro
+		this.tabView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>() {
+			@Override
+			public void changed(ObservableValue<? extends Object> observable, Object oldValue, Object newValue) {
+				if(tabView.getSelectionModel().selectedItemProperty() != null){
+					Movimentacoes m = new Movimentacoes();
+					m.setCod_lancamento(tabView.getSelectionModel().getSelectedItem().getCod_movimentacao());
+					m.setData_movimentacao(tabView.getSelectionModel().getSelectedItem().getData_movimentacao());
+					m.setValor(tabView.getSelectionModel().getSelectedItem().getValor());
+					m.setNum_documento(tabView.getSelectionModel().getSelectedItem().getNum_documento());
+					m.setNum_apto(tabView.getSelectionModel().getSelectedItem().getNum_apto());
+					m.setCod_lancamento(tabView.getSelectionModel().getSelectedItem().getCod_lancamento());
+					try{
+						preencheTabCadastro(m);
+					}catch (Exception e){
+						Util.mensagemErro("Erro: "+e.getMessage());
+					}
+				}
+				
+			}
+		});
 
 	}
 	
