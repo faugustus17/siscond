@@ -59,7 +59,7 @@ public class ReservasDao {
 		int retorno = 0;
 		try{
 			st = conn.createStatement();
-			rs = st.executeQuery("SELECT * FROM tb_reservas WHERE  horario_final = "+horaFinal+"'");
+			rs = st.executeQuery("SELECT * FROM tb_reservas WHERE  horario_final = '"+horaFinal+"'");
 			if(rs.next()){
 				//Data de Reserva ja cadastrada
 				retorno = 1;
@@ -86,7 +86,7 @@ public class ReservasDao {
 			try{
 				sql = "INSERT INTO tb_reservas(data_reserva, horario_inicial, horario_final, num_apto) VALUES( '";
 				sql += Util.rsDataBD(reserva.getData_reserva())+"', '"+reserva.getHorario_inicial()+"', '";
-				sql += reserva.getHorario_final()+"'"+reserva.getNum_apto()+")";
+				sql += reserva.getHorario_final()+"', "+reserva.getNum_apto()+")";
 				st = conn.createStatement();
 				int rst = st.executeUpdate(sql);
 				if(rst == 1){
@@ -152,7 +152,7 @@ public class ReservasDao {
 
 	//Consulta e lista pelo Numero do Apartamento
 	public ArrayList<Reservas> consultaResNumApto (int numero){
-		Reservas r;
+		Reservas r = new Reservas();
 		String sql = null;
 		ArrayList<Reservas> aL = new ArrayList<Reservas>();
 		try{
@@ -176,7 +176,7 @@ public class ReservasDao {
 
 	//Consulta e lista pela Data da Reserva
 	public ArrayList<Reservas> consultaData (Date data){
-		Reservas r;
+		Reservas r = new Reservas();
 		String sql = null;
 		ArrayList<Reservas> aL = new ArrayList<Reservas>();
 		try{

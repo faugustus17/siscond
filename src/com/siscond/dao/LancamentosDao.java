@@ -107,7 +107,7 @@ public class LancamentosDao {
 	
 	//Consulta e lista pelo Tipo do Lancamento
 	public ArrayList<Lancamentos> consultaTipoLcto (String tipo){
-		Lancamentos l;
+		Lancamentos l = new Lancamentos();
 		String sql = null;
 		ArrayList<Lancamentos> aL = new ArrayList<Lancamentos>();
 		try{
@@ -129,7 +129,7 @@ public class LancamentosDao {
 	
 	//Consulta e lista pela Descrição do Lançamento
 	public ArrayList<Lancamentos> consultaDescLcto (String desc){
-		Lancamentos l;
+		Lancamentos l = new Lancamentos();
 		String sql = null;
 		ArrayList<Lancamentos> aL = new ArrayList<Lancamentos>();
 		try{
@@ -152,5 +152,61 @@ public class LancamentosDao {
 			return null;
 		}
 		return aL;
+	}
+	
+	//Consulta e lista Lancamento
+	public ArrayList<Lancamentos> listaLcto (){
+		Lancamentos l = new Lancamentos();
+		ArrayList<Lancamentos> aL = new ArrayList<Lancamentos>();
+		try{
+			st = conn.createStatement();
+			rs = st.executeQuery("SELECT * FROM tb_lancamentos ORDER BY descricao_lancamento");
+			while (rs.next()){
+				l = new Lancamentos();
+				l.setCod_lancamento(rs.getInt("cod_lancamento"));
+				l.setDescricao_lancamento(rs.getString("descricao_lancamento"));
+				l.setTipo_lancamento(rs.getString("tipo_lancamento"));
+				aL.add(l);
+			}
+		}catch (SQLException e){
+			return null;
+		}
+		return aL;
+	}
+	
+	//Consulta e lista Lancamento
+	public Lancamentos consultaPorIdLcto(int codigo){
+		Lancamentos l = new Lancamentos();
+		try{
+			st = conn.createStatement();
+			rs = st.executeQuery("SELECT * FROM tb_lancamentos WHERE cod_lancamento = "+codigo);
+			if(rs.next()){
+				l = new Lancamentos();
+				l.setCod_lancamento(rs.getInt("cod_lancamento"));
+				l.setDescricao_lancamento(rs.getString("descricao_lancamento"));
+				l.setTipo_lancamento(rs.getString("tipo_lancamento"));
+			}
+		}catch (SQLException e){
+			return null;
+		}
+		return l;
+	}
+	
+	//Consulta e lista Lancamento
+	public Lancamentos consultaPorLcto(String descricao){
+		Lancamentos l = new Lancamentos();
+		try{
+			st = conn.createStatement();
+			rs = st.executeQuery("SELECT * FROM tb_lancamentos WHERE descricao_lancamento = '"+descricao+"'");
+			if(rs.next()){
+				l = new Lancamentos();
+				l.setCod_lancamento(rs.getInt("cod_lancamento"));
+				l.setDescricao_lancamento(rs.getString("descricao_lancamento"));
+				l.setTipo_lancamento(rs.getString("tipo_lancamento"));
+			}
+		}catch (SQLException e){
+			return null;
+		}
+		return l;
 	}
 }

@@ -111,7 +111,7 @@ public class MovimentacoesDao {
 
 	//Consulta e lista pelo Numero do Apartamento
 	public ArrayList<Movimentacoes> consultaMovNumApto (int numero){
-		Movimentacoes m;
+		Movimentacoes m = new Movimentacoes();
 		String sql = null;
 		ArrayList<Movimentacoes> aL = new ArrayList<Movimentacoes>();
 		try{
@@ -136,7 +136,7 @@ public class MovimentacoesDao {
 	
 	//Consulta e lista pelo Codigo do Lançamento
 	public ArrayList<Movimentacoes> consultaCodLcto (int numero){
-		Movimentacoes m;
+		Movimentacoes m = new Movimentacoes();
 		String sql = null;
 		ArrayList<Movimentacoes> aL = new ArrayList<Movimentacoes>();
 		try{
@@ -161,7 +161,7 @@ public class MovimentacoesDao {
 
 	//Consulta e lista pela Data 
 	public ArrayList<Movimentacoes> consultaData (Date data){
-		Movimentacoes m;
+		Movimentacoes m = new Movimentacoes();
 		String sql = null;
 		ArrayList<Movimentacoes> aL = new ArrayList<Movimentacoes>();
 		try{

@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import com.siscond.modelo.Apartamentos;
+import com.siscond.util.Util;
 
 public class ApartamentosDao {
 	Conexao conexao = new Conexao();
@@ -108,7 +109,7 @@ public class ApartamentosDao {
 	
 	//Consulta e lista pelo Numero do Apartamento
 	public ArrayList<Apartamentos> consultaNumApto (int numero){
-		Apartamentos a;
+		Apartamentos a = new Apartamentos();
 		String sql = null;
 		ArrayList<Apartamentos> aLAp = new ArrayList<Apartamentos>();
 		try{
@@ -128,9 +129,26 @@ public class ApartamentosDao {
 		return aLAp;
 	}
 	
+	//Consulta e lista por Numero de Apartamento
+	public Apartamentos consultaPorNumApto(int numero){
+		Apartamentos a = new Apartamentos();
+		try{
+			st = conn.createStatement();
+			rs = st.executeQuery("SELECT * FROM tb_apartamentos WHERE num_apto = "+numero);
+			if(rs.next()){
+				a.setNum_apto(rs.getInt("num_apto"));
+				a.setNome_titular(rs.getString("nome_titular"));
+				a.setTelefone_titular(rs.getString("telefone_titular"));
+			}
+		}catch (SQLException e){
+			Util.mensagemErro("Erro: "+e.getMessage());
+		}
+		return a;
+	}
+	
 	//Consulta e lista pelo Nome do Proprietário
 	public ArrayList<Apartamentos> consultaNomeTitular (String nome){
-		Apartamentos a;
+		Apartamentos a = new Apartamentos();
 		String sql = null;
 		ArrayList<Apartamentos> aLAp = new ArrayList<Apartamentos>();
 		try{
@@ -142,6 +160,26 @@ public class ApartamentosDao {
 			}
 			st = conn.createStatement();
 			rs = st.executeQuery(sql);
+			while (rs.next()){
+				a = new Apartamentos();
+				a.setNum_apto(rs.getInt("num_apto"));
+				a.setNome_titular(rs.getString("nome_titular"));
+				a.setTelefone_titular(rs.getString("telefone_titular"));
+				aLAp.add(a);
+			}
+		}catch (SQLException e){
+			return null;
+		}
+		return aLAp;
+	}
+	
+	//Consulta e lista Apartamento
+	public ArrayList<Apartamentos> listaNumApto (){
+		Apartamentos a = new Apartamentos();
+		ArrayList<Apartamentos> aLAp = new ArrayList<Apartamentos>();
+		try{
+			st = conn.createStatement();
+			rs = st.executeQuery("SELECT * FROM tb_apartamentos ORDER BY num_apto");
 			while (rs.next()){
 				a = new Apartamentos();
 				a.setNum_apto(rs.getInt("num_apto"));
