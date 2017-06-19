@@ -56,6 +56,7 @@ public class ApartamentosDao {
 					retorno = 0;
 				}
 			}catch (SQLException e){
+				Util.mensagemErro(e.getMessage());
 				return retorno;
 			}
 		}
@@ -81,6 +82,7 @@ public class ApartamentosDao {
 				retorno = false;
 			}
 		}catch (SQLException e){
+			Util.mensagemErro(e.getMessage());
 			return retorno;
 		}
 		return retorno;	
@@ -102,6 +104,7 @@ public class ApartamentosDao {
 				retorno = false;
 			}
 		}catch (SQLException e){
+			Util.mensagemErro(e.getMessage());
 			return retorno;
 		}
 		return retorno;	
@@ -124,6 +127,7 @@ public class ApartamentosDao {
 				aLAp.add(a);
 			}
 		}catch (SQLException e){
+			Util.mensagemErro(e.getMessage());
 			return null;
 		}
 		return aLAp;
@@ -142,6 +146,7 @@ public class ApartamentosDao {
 			}
 		}catch (SQLException e){
 			Util.mensagemErro("Erro: "+e.getMessage());
+			return null;
 		}
 		return a;
 	}
@@ -168,6 +173,7 @@ public class ApartamentosDao {
 				aLAp.add(a);
 			}
 		}catch (SQLException e){
+			Util.mensagemErro(e.getMessage());
 			return null;
 		}
 		return aLAp;
@@ -188,6 +194,7 @@ public class ApartamentosDao {
 				aLAp.add(a);
 			}
 		}catch (SQLException e){
+			Util.mensagemErro(e.getMessage());
 			return null;
 		}
 		return aLAp;

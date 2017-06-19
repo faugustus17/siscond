@@ -1,11 +1,14 @@
 package com.siscond.controller;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -13,11 +16,13 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
+import javafx.util.Callback;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -27,6 +32,8 @@ import com.siscond.util.Util;
 import javafx.fxml.Initializable;
 
 public class ReservasController implements Initializable{
+	Date data_banco = new Date();
+	
 	@FXML
 	private TabPane tabPane;
 
@@ -47,6 +54,9 @@ public class ReservasController implements Initializable{
 
 	@FXML
 	private TextField txtNumApto;
+	
+	@FXML
+	private TextField txtData;
 
 	@FXML
 	private DatePicker dtPic;
@@ -94,7 +104,7 @@ public class ReservasController implements Initializable{
 	void onActionBtAlterar(ActionEvent event) {
 		String msg = "";
 		ReservasDao rD = new ReservasDao();
-		if(Util.stringVaziaOuNula(this.dtPic.getPromptText())){
+		if(Util.stringVaziaOuNula(this.txtData.getText())){
 			msg += "\nInforme uma Data de Reserva";
 		}
 		if(Util.stringVaziaOuNula(this.txtHrIn.getText())){
@@ -108,10 +118,12 @@ public class ReservasController implements Initializable{
 		}
 		if(msg.equals("")){
 			Reservas r = new Reservas();
-			r.setCod_reserva(Integer.parseInt(this.txtCodRes.getText()));
-			r.setData_reserva(Util.dataF(this.dtPic.getPromptText()));
+			if(!Util.stringVaziaOuNula(this.txtCodRes.getText())){
+				r.setCod_reserva(Integer.parseInt(this.txtCodRes.getText()));
+			}
+			r.setData_reserva(this.data_banco);
 			r.setHorario_inicial(this.txtHrIn.getText());
-			r.setHorario_inicial(this.txtHrFi.getText());
+			r.setHorario_final(this.txtHrFi.getText());
 			r.setNum_apto(Integer.parseInt(this.txtNumApto.getText()));
 			boolean retorno = rD.alteraReserva(r);
 			if(retorno){
@@ -129,7 +141,7 @@ public class ReservasController implements Initializable{
 	void onActionBtCadastrar(ActionEvent event) {
 		String msg = "";
 		ReservasDao rD = new ReservasDao();
-		if(Util.stringVaziaOuNula(this.dtPic.getPromptText())){
+		if(Util.stringVaziaOuNula(this.txtData.getText())){
 			msg += "\nInforme uma Data de Reserva";
 		}
 		if(Util.stringVaziaOuNula(this.txtHrIn.getText())){
@@ -141,16 +153,16 @@ public class ReservasController implements Initializable{
 		if(Util.stringVaziaOuNula(this.txtNumApto.getText())){
 			msg += "\nInforme o Número do Apartamento";
 		}
-		if(rD.consultaDtRes(Util.dataF(this.dtPic.getPromptText())) == 1 
+		if(rD.consultaDtRes(Util.dataF(this.txtData.getText())) == 1 
 				&& (rD.consultaHoraInRes(this.txtHrIn.getText()) == 1
 				|| rD.consultaHoraFimRes(this.txtHrFi.getText()) == 1)){
 			msg += "\nReserva já feita para essa Dia/Horário";
 		}
 		if(msg.equals("")){
 			Reservas r = new Reservas();
-			r.setData_reserva(Util.dataF(this.dtPic.getPromptText()));
+			r.setData_reserva(this.data_banco);
 			r.setHorario_inicial(this.txtHrIn.getText());
-			r.setHorario_inicial(this.txtHrFi.getText());
+			r.setHorario_final(this.txtHrFi.getText());
 			r.setNum_apto(Integer.parseInt(this.txtNumApto.getText()));
 			int retorno = rD.incluiReserva(r);
 			if(retorno == 1){
@@ -159,7 +171,7 @@ public class ReservasController implements Initializable{
 			}else if(retorno == 0){
 				Util.mensagemErro("Erro, inclusão não pôde ser feita!");
 			}else if(retorno == 2){
-				Util.mensagemInformacao("Lançamento já cadastrado!");
+				Util.mensagemInformacao("Reserva já cadastrada!");
 			}
 		}else{
 			Util.mensagemErro(msg);
@@ -179,6 +191,7 @@ public class ReservasController implements Initializable{
 			boolean retorno = rD.excluiRervas(r);
 			if(retorno){
 				Util.mensagemInformacao("Exclusão efetuada com sucesso!");
+				this.limpaTela();
 			}else{
 				Util.mensagemErro("Erro, exclusão não pôde ser realizada!");
 			}
@@ -222,13 +235,13 @@ public class ReservasController implements Initializable{
 			ReservasDao rD = new ReservasDao();
 			String s = cmbPesq.getSelectionModel().getSelectedItem().toString();
 			if(s.equals("Data da Reserva")){
-				al = rD.consultaData(Util.dataF(consulta));
+				al = rD.consultaData(consulta);
 			}else if(s.equals("Número do Apartamento")){
-				al = rD.consultaResNumApto(Integer.parseInt(consulta));
+				al = rD.consultaResNumApto((consulta));
 			}
 			ob = FXCollections.observableArrayList(al);
 			this.tabView.setItems(ob);
-			this.colApto.setCellValueFactory(new PropertyValueFactory<Reservas, Integer>("cod_lancamento"));
+			this.colApto.setCellValueFactory(new PropertyValueFactory<Reservas, Integer>("num_apto"));
 			this.colRes.setCellValueFactory(new PropertyValueFactory<Reservas, Date>("data_reserva"));
 			this.colHrIn.setCellValueFactory(new PropertyValueFactory<Reservas, String>("horario_inicial"));
 			this.colHrFi.setCellValueFactory(new PropertyValueFactory<Reservas, String>("horario_final"));
@@ -240,6 +253,26 @@ public class ReservasController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		
+		this.colRes.setCellFactory(new Callback<TableColumn<Reservas,Date>, TableCell<Reservas,Date>>() {
+
+			@Override
+			public TableCell<Reservas, Date> call(TableColumn<Reservas, Date> param) {
+				return new TableCell<Reservas, Date>(){
+					@Override
+					protected void updateItem(Date data, boolean empty){
+						super.updateItem(data, empty);
+						if(!empty){
+							setText(Util.dataBarra(data));
+						}else{
+							setText(null);
+						}
+					}
+				};
+			}
+		});
+		
+		
 		//Populando as ComboBox Pesq
 		this.tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
 			@Override
@@ -331,13 +364,24 @@ public class ReservasController implements Initializable{
 				}
 			}
 		});
+		
+		this.dtPic.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				LocalDate dt = dtPic.getValue();
+				DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+				data_banco = Util.dataF(dt.format(formatters));
+				txtData.setText(dt.format(formatters));
+			}
+		});
 
 	}
 
 	//Metodo de preenchimento da aba Cadastro com os dados buscados
 	private void preencheAbaCad(Reservas r) {
 		this.txtCodRes.setText(Integer.toString(r.getCod_reserva()));
-		this.dtPic.setPromptText(Util.rsDataBD(r.getData_reserva()));
+		this.dtPic.setPromptText("");
+		this.txtData.setText(Util.dataBarra(r.getData_reserva()));
 		this.txtHrIn.setText(r.getHorario_inicial());
 		this.txtHrFi.setText(r.getHorario_final());
 		this.txtNumApto.setText(Integer.toString(r.getNum_apto()));
@@ -356,10 +400,14 @@ public class ReservasController implements Initializable{
 		this.txtCodRes.setText("");
 		this.txtHrIn.setText("");
 		this.txtHrFi.setText("");
+		this.txtData.setText("");
+		this.txtNumApto.setText("");
 		this.cmbPesq.getItems().clear();
+		this.dtPic.setPromptText("");
 		ArrayList<Reservas> al = new ArrayList<Reservas>();
 		ObservableList<Reservas> ob = FXCollections.observableArrayList(al);
 		this.tabView.setItems(ob);
+		this.cmbPesq.setPromptText("Selecione");
 	}
 
 }

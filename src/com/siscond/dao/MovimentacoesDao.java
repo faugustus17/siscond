@@ -57,6 +57,7 @@ public class MovimentacoesDao {
 					retorno = 0;
 				}
 			}catch (SQLException e){
+				Util.mensagemErro(e.getMessage());
 				return retorno;
 			}
 		//}
@@ -83,6 +84,7 @@ public class MovimentacoesDao {
 				retorno = false;
 			}
 		}catch (SQLException e){
+			Util.mensagemErro(e.getMessage());
 			return retorno;
 		}
 		return retorno;	
@@ -104,6 +106,7 @@ public class MovimentacoesDao {
 				retorno = false;
 			}
 		}catch (SQLException e){
+			Util.mensagemErro(e.getMessage());
 			return retorno;
 		}
 		return retorno;	
@@ -129,6 +132,7 @@ public class MovimentacoesDao {
 				aL.add(m);
 			}
 		}catch (SQLException e){
+			Util.mensagemErro(e.getMessage());
 			return null;
 		}
 		return aL;
@@ -154,6 +158,7 @@ public class MovimentacoesDao {
 				aL.add(m);
 			}
 		}catch (SQLException e){
+			Util.mensagemErro(e.getMessage());
 			return null;
 		}
 		return aL;
@@ -183,6 +188,7 @@ public class MovimentacoesDao {
 				aL.add(m);
 			}
 		}catch (SQLException e){
+			Util.mensagemErro(e.getMessage());
 			return null;
 		}
 		return aL;

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import com.mysql.jdbc.Connection;
 import com.siscond.modelo.Lancamentos;
+import com.siscond.util.Util;
 
 public class LancamentosDao {
 	Conexao conexao = new Conexao();
@@ -54,6 +55,7 @@ public class LancamentosDao {
 					retorno = 0;
 				}
 			}catch (SQLException e){
+				Util.mensagemErro(e.getMessage());
 				return retorno;
 			}
 		}
@@ -79,6 +81,7 @@ public class LancamentosDao {
 				retorno = false;
 			}
 		}catch (SQLException e){
+			Util.mensagemErro(e.getMessage());
 			return retorno;
 		}
 		return retorno;	
@@ -100,6 +103,7 @@ public class LancamentosDao {
 				retorno = false;
 			}
 		}catch (SQLException e){
+			Util.mensagemErro(e.getMessage());
 			return retorno;
 		}
 		return retorno;	
@@ -122,6 +126,7 @@ public class LancamentosDao {
 				aL.add(l);
 			}
 		}catch (SQLException e){
+			Util.mensagemErro(e.getMessage());
 			return null;
 		}
 		return aL;
@@ -149,6 +154,7 @@ public class LancamentosDao {
 				aL.add(l);
 			}
 		}catch (SQLException e){
+			Util.mensagemErro(e.getMessage());
 			return null;
 		}
 		return aL;
@@ -169,6 +175,7 @@ public class LancamentosDao {
 				aL.add(l);
 			}
 		}catch (SQLException e){
+			Util.mensagemErro(e.getMessage());
 			return null;
 		}
 		return aL;
@@ -187,6 +194,7 @@ public class LancamentosDao {
 				l.setTipo_lancamento(rs.getString("tipo_lancamento"));
 			}
 		}catch (SQLException e){
+			Util.mensagemErro(e.getMessage());
 			return null;
 		}
 		return l;
@@ -205,6 +213,7 @@ public class LancamentosDao {
 				l.setTipo_lancamento(rs.getString("tipo_lancamento"));
 			}
 		}catch (SQLException e){
+			Util.mensagemErro(e.getMessage());
 			return null;
 		}
 		return l;

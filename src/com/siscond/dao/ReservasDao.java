@@ -84,7 +84,7 @@ public class ReservasDao {
 			retorno = 2;
 		}else{
 			try{
-				sql = "INSERT INTO tb_reservas(data_reserva, horario_inicial, horario_final, num_apto) VALUES( '";
+				sql = "INSERT INTO tb_reservas(data_reserva, horario_inicial, horario_final, num_apto) VALUES('";
 				sql += Util.rsDataBD(reserva.getData_reserva())+"', '"+reserva.getHorario_inicial()+"', '";
 				sql += reserva.getHorario_final()+"', "+reserva.getNum_apto()+")";
 				st = conn.createStatement();
@@ -97,6 +97,7 @@ public class ReservasDao {
 					retorno = 0;
 				}
 			}catch (SQLException e){
+				Util.mensagemErro(e.getMessage());
 				return retorno;
 			}
 		}
@@ -112,8 +113,8 @@ public class ReservasDao {
 			sql += "data_reserva= '"+Util.rsDataBD(reservas.getData_reserva())+"', ";
 			sql += "horario_inicial= '"+reservas.getHorario_inicial()+"', ";
 			sql += "horario_final= '"+reservas.getHorario_final()+"', ";
-			sql += "num_apto= "+reservas.getNum_apto()+", ";
-			sql += " WHERE cod_reserva = "+reservas.getCod_reserva();
+			sql += "num_apto= "+reservas.getNum_apto();
+			sql += " WHERE cod_reserva= "+reservas.getCod_reserva();
 			st = conn.createStatement();
 			int rst = st.executeUpdate(sql);
 			if(rst == 1){
@@ -124,6 +125,7 @@ public class ReservasDao {
 				retorno = false;
 			}
 		}catch (SQLException e){
+			Util.mensagemErro(e.getMessage());
 			return retorno;
 		}
 		return retorno;	
@@ -145,18 +147,24 @@ public class ReservasDao {
 				retorno = false;
 			}
 		}catch (SQLException e){
+			Util.mensagemErro(e.getMessage());
 			return retorno;
 		}
 		return retorno;	
 	}
 
 	//Consulta e lista pelo Numero do Apartamento
-	public ArrayList<Reservas> consultaResNumApto (int numero){
+	public ArrayList<Reservas> consultaResNumApto (String numero){
 		Reservas r = new Reservas();
 		String sql = null;
 		ArrayList<Reservas> aL = new ArrayList<Reservas>();
 		try{
-			sql = "SELECT * FROM tb_reservas WHERE num_apto = "+numero;
+			if(numero.equals("")){
+				sql = "SELECT * FROM tb_reservas ORDER BY num_apto";
+			}else{
+				int aux = Integer.parseInt(numero);
+				sql = "SELECT * FROM tb_reservas WHERE num_apto = "+aux;
+			}
 			st = conn.createStatement();
 			rs = st.executeQuery(sql);
 			while (rs.next()){
@@ -165,17 +173,18 @@ public class ReservasDao {
 				r.setData_reserva(Util.rsData(rs.getString("data_reserva")));
 				r.setHorario_inicial(rs.getString("horario_inicial"));
 				r.setHorario_final(rs.getString("horario_final"));
-				r.setCod_reserva(rs.getInt("num_apto"));
+				r.setNum_apto(rs.getInt("num_apto"));
 				aL.add(r);
 			}
 		}catch (SQLException e){
+			Util.mensagemErro(e.getMessage());
 			return null;
 		}
 		return aL;
 	}
 
 	//Consulta e lista pela Data da Reserva
-	public ArrayList<Reservas> consultaData (Date data){
+	public ArrayList<Reservas> consultaData (String data){
 		Reservas r = new Reservas();
 		String sql = null;
 		ArrayList<Reservas> aL = new ArrayList<Reservas>();
@@ -183,7 +192,7 @@ public class ReservasDao {
 			if (data.equals(null) || data.equals("")){
 				sql = "SELECT * FROM tb_reservas ORDER BY data_reserva";
 			}else{
-				sql = "SELECT * FROM tb_reservas WHERE data_reserva '"+Util.rsDataBD(data)+"' ORDER BY data_reserva";
+				sql = "SELECT * FROM tb_reservas WHERE data_reserva '"+Util.rsDataBD(Util.dataF(data))+"' ORDER BY data_reserva";
 			}
 			st = conn.createStatement();
 			rs = st.executeQuery(sql);
@@ -193,10 +202,11 @@ public class ReservasDao {
 				r.setData_reserva(Util.rsData(rs.getString("data_reserva")));
 				r.setHorario_inicial(rs.getString("horario_inicial"));
 				r.setHorario_final(rs.getString("horario_final"));
-				r.setCod_reserva(rs.getInt("num_apto"));
+				r.setNum_apto(rs.getInt("num_apto"));
 				aL.add(r);
 			}
 		}catch (SQLException e){
+			Util.mensagemErro(e.getMessage());
 			return null;
 		}
 		return aL;
