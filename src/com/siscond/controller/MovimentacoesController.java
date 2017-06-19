@@ -1,13 +1,14 @@
 package com.siscond.controller;
 
 import java.net.URL;
-import java.sql.SQLException;
-
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -15,11 +16,13 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
+import javafx.util.Callback;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -33,6 +36,8 @@ import com.siscond.util.Util;
 import javafx.fxml.Initializable;
 
 public class MovimentacoesController implements Initializable{
+	Date data_banco = new Date();
+	
 	@FXML
 	private TabPane tabPane;
 
@@ -80,6 +85,9 @@ public class MovimentacoesController implements Initializable{
 
 	@FXML
 	private Button btPesq;
+	
+	@FXML
+    private TextField txtData;
 
 	@FXML
 	private TextField txtPesq;
@@ -104,7 +112,7 @@ public class MovimentacoesController implements Initializable{
 		String msg = "";
 		Lancamentos l = new Lancamentos();
 		MovimentacoesDao mD = new MovimentacoesDao();
-		if(Util.stringVaziaOuNula(this.dtPic.getPromptText())){
+		if(Util.stringVaziaOuNula(this.txtData.getText())){
 			msg += "\nInforme uma Data de Reserva";
 		}
 		if(Util.stringVaziaOuNula(this.txtValor.getText())){
@@ -113,19 +121,19 @@ public class MovimentacoesController implements Initializable{
 		if(Util.stringVaziaOuNula(this.txtNumDoc.getText())){
 			msg += "\nInforme o Número do Documento";
 		}
-		if(this.cmbNumApto.getPromptText().equals("Apartamento")){
+		if(this.cmbNumApto.getSelectionModel().getSelectedItem().equals("Apartamento")){
 			msg += "\nInforme o Número do Apartamento";
 		}
-		if(this.cmbLan.getPromptText().equals("Selecione")){
+		if(this.cmbLan.getSelectionModel().getSelectedItem().equals("Selecione")){
 			msg += "\nInforme um Lançamento";
 		}
 		if(msg.equals("")){
 			Movimentacoes m = new Movimentacoes();
 			m.setCod_lancamento(Integer.parseInt(this.txtCodMov.getText()));
-			m.setData_movimentacao(Util.dataF(this.dtPic.getPromptText()));
+			m.setData_movimentacao(this.data_banco);
 			m.setValor(Float.parseFloat(this.txtValor.getText()));
 			m.setNum_documento(Integer.parseInt(this.txtNumDoc.getText()));
-			m.setNum_apto(Integer.parseInt(this.cmbNumApto.getPromptText()));
+			m.setNum_apto(Integer.parseInt(this.cmbNumApto.getSelectionModel().getSelectedItem().toString()));
 			String s = this.cmbLan.getSelectionModel().getSelectedItem();
 			if (s == null){
 				s = this.cmbLan.getPromptText();
@@ -149,7 +157,7 @@ public class MovimentacoesController implements Initializable{
 		String msg = "";
 		Lancamentos l = new Lancamentos();
 		MovimentacoesDao mD = new MovimentacoesDao();
-		if(Util.stringVaziaOuNula(this.dtPic.getPromptText())){
+		if(Util.stringVaziaOuNula(this.txtData.getText())){
 			msg += "\nInforme uma Data de Reserva";
 		}
 		if(Util.stringVaziaOuNula(this.txtValor.getText())){
@@ -158,18 +166,18 @@ public class MovimentacoesController implements Initializable{
 		if(Util.stringVaziaOuNula(this.txtNumDoc.getText())){
 			msg += "\nInforme o Número do Documento";
 		}
-		if(this.cmbNumApto.getPromptText().equals("Apartamento")){
+		if(this.cmbNumApto.getSelectionModel().getSelectedItem().equals("Apartamento")){
 			msg += "\nInforme o Número do Apartamento";
 		}
-		if(this.cmbLan.getPromptText().equals("Selecione")){
+		if(this.cmbLan.getSelectionModel().getSelectedItem().equals("Selecione")){
 			msg += "\nInforme um Lançamento";
 		}
 		if(msg.equals("")){
 			Movimentacoes m = new Movimentacoes();
-			m.setData_movimentacao(Util.dataF(this.dtPic.getPromptText()));
+			m.setData_movimentacao(this.data_banco);
 			m.setValor(Float.parseFloat(this.txtValor.getText()));
 			m.setNum_documento(Integer.parseInt(this.txtNumDoc.getText()));
-			m.setNum_apto(Integer.parseInt(this.cmbNumApto.getPromptText()));
+			m.setNum_apto(Integer.parseInt(this.cmbNumApto.getSelectionModel().getSelectedItem().toString()));
 			String s = this.cmbLan.getSelectionModel().getSelectedItem();
 			if (s == null){
 				s = this.cmbLan.getPromptText();
@@ -183,7 +191,7 @@ public class MovimentacoesController implements Initializable{
 			}else if(retorno == 0){
 				Util.mensagemErro("Erro, inclusão não pôde ser feita!");
 			}else if(retorno == 2){
-				Util.mensagemInformacao("Lançamento já cadastrado!");
+				Util.mensagemInformacao("Movimentação já cadastrada!");
 			}
 		}else{
 			Util.mensagemErro(msg);
@@ -272,6 +280,23 @@ public class MovimentacoesController implements Initializable{
 		this.preencheCmbBoxNumApto();
 		this.preencheCmbPesq();
 		
+		this.colDtMov.setCellFactory(new Callback<TableColumn<Movimentacoes,Date>, TableCell<Movimentacoes,Date>>() {
+			@Override
+			public TableCell<Movimentacoes, Date> call(TableColumn<Movimentacoes, Date> param) {
+				return new TableCell<Movimentacoes, Date>(){
+					@Override
+					protected void updateItem(Date data, boolean empty){
+						super.updateItem(data, empty);
+						if(!empty){
+							setText(Util.dataBarra(data));
+						}else{
+							setText(null);
+						}
+					}
+				};
+			}
+		});
+		
 		//Preenche as ComboBox da Aba Cadastro
 		this.tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
 			@Override
@@ -330,7 +355,16 @@ public class MovimentacoesController implements Initializable{
 				
 			}
 		});
-
+		
+		this.dtPic.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				LocalDate dt = dtPic.getValue();
+				DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+				data_banco = Util.dataF(dt.format(formatters));
+				txtData.setText(dt.format(formatters));
+			}
+		});
 	}
 	
 	//Metodo de preenchimento da ComboBox Numero Apartamento
@@ -366,7 +400,7 @@ public class MovimentacoesController implements Initializable{
 	}
 	
 	//Metodo de preenchimento da aba Cadastro com os dados buscados
-	public void preencheTabCadastro(Movimentacoes m)throws SQLException{
+	public void preencheTabCadastro(Movimentacoes m){
 		Lancamentos l = new Lancamentos();
 		LancamentosDao lD = new LancamentosDao();
 		l = lD.consultaPorIdLcto(m.getCod_lancamento());
@@ -394,7 +428,8 @@ public class MovimentacoesController implements Initializable{
 			}
 		}
 		this.txtCodMov.setText(Integer.toString(m.getCod_movimentacao()));
-		this.dtPic.setPromptText(Util.rsDataBD(m.getData_movimentacao()));
+		this.dtPic.setPromptText("");
+		txtData.setText(Util.dataBarra(m.getData_movimentacao()));
 		this.txtValor.setText(Float.toString(m.getValor()));
 		this.txtNumDoc.setText(Integer.toString(m.getNum_documento()));
 		SingleSelectionModel<Tab> selectionModel = this.tabPane.getSelectionModel();
@@ -422,15 +457,13 @@ public class MovimentacoesController implements Initializable{
 	public void limpaTela(){
 		this.txtCodMov.setText("");
 		this.dtPic.setPromptText("");
+		this.txtData.setText("");
 		this.txtValor.setText("");
 		this.txtNumDoc.setText("");
 		this.txtPesq.setText("");
 		this.cmbLan.getItems().clear();
 		this.cmbNumApto.getItems().clear();
 		this.cmbPesq.getItems().clear();
-		ArrayList<Movimentacoes> al = new ArrayList<Movimentacoes>();
-		ObservableList<Movimentacoes> ob = FXCollections.observableArrayList(al);
-		this.tabView.setItems(ob);
 	}
 
 

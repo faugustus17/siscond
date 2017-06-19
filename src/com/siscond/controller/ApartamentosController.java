@@ -303,9 +303,6 @@ public class ApartamentosController implements Initializable{
 		this.txtNumApto.setText("");
 		this.txtNomeProp.setText("");
 		this.txtTelefone.setText("");
-		ArrayList<Apartamentos> al = new ArrayList<Apartamentos>();
-		ObservableList<Apartamentos> ob = FXCollections.observableArrayList(al);
-		this.tabView.setItems(ob);
 	}
 
 }

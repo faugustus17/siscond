@@ -253,6 +253,7 @@ public class ReservasController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		this.preencheCmbPesq();
 		
 		this.colRes.setCellFactory(new Callback<TableColumn<Reservas,Date>, TableCell<Reservas,Date>>() {
 
@@ -404,10 +405,6 @@ public class ReservasController implements Initializable{
 		this.txtNumApto.setText("");
 		this.cmbPesq.getItems().clear();
 		this.dtPic.setPromptText("");
-		ArrayList<Reservas> al = new ArrayList<Reservas>();
-		ObservableList<Reservas> ob = FXCollections.observableArrayList(al);
-		this.tabView.setItems(ob);
-		this.cmbPesq.setPromptText("Selecione");
 	}
 
 }

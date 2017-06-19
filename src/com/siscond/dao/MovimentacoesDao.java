@@ -124,8 +124,8 @@ public class MovimentacoesDao {
 			while (rs.next()){
 				m = new Movimentacoes();
 				m.setCod_lancamento(rs.getInt("cod_movimentacao"));
-				m.setData_movimentacao(Util.rsData(rs.getString("nome_titular")));
-				m.setValor(rs.getFloat("telefone_titular"));
+				m.setData_movimentacao(Util.rsData(rs.getString("data_movimento")));
+				m.setValor(rs.getFloat("valor"));
 				m.setNum_documento(rs.getInt("num_documento"));
 				m.setNum_apto(rs.getInt("num_apto"));
 				m.setCod_lancamento(rs.getInt("cod_lancamento"));
@@ -150,8 +150,8 @@ public class MovimentacoesDao {
 			while (rs.next()){
 				m = new Movimentacoes();
 				m.setCod_lancamento(rs.getInt("cod_movimentacao"));
-				m.setData_movimentacao(Util.rsData(rs.getString("nome_titular")));
-				m.setValor(rs.getFloat("telefone_titular"));
+				m.setData_movimentacao(Util.rsData(rs.getString("data_movimento")));
+				m.setValor(rs.getFloat("valor"));
 				m.setNum_documento(rs.getInt("num_documento"));
 				m.setNum_apto(rs.getInt("num_apto"));
 				m.setCod_lancamento(rs.getInt("cod_lancamento"));
@@ -180,8 +180,8 @@ public class MovimentacoesDao {
 			while (rs.next()){
 				m = new Movimentacoes();
 				m.setCod_lancamento(rs.getInt("cod_movimentacao"));
-				m.setData_movimentacao(Util.rsData(rs.getString("nome_titular")));
-				m.setValor(rs.getFloat("telefone_titular"));
+				m.setData_movimentacao(Util.rsData(rs.getString("data_movimento")));
+				m.setValor(rs.getFloat("valor"));
 				m.setNum_documento(rs.getInt("num_documento"));
 				m.setNum_apto(rs.getInt("num_apto"));
 				m.setCod_lancamento(rs.getInt("cod_lancamento"));

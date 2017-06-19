@@ -68,7 +68,7 @@ public class ApartamentosDao {
 		boolean retorno = false;
 		String sql = null;
 		try{
-			sql = "UPDATE tb_apartamentos SET";
+			sql = "UPDATE tb_apartamentos SET ";
 			sql += "nome_titular= '"+apto.getNome_titular()+"', ";
 			sql += "telefone_titular= '"+apto.getTelefone_titular()+"'";
 			sql += " WHERE num_apto = "+apto.getNum_apto();
