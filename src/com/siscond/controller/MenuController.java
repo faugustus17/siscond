@@ -1,11 +1,10 @@
 package com.siscond.controller;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
-
 import com.siscond.application.Main;
 import com.siscond.util.Util;
-
 import javafx.fxml.Initializable;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -19,6 +18,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import net.sf.jasperreports.engine.JRException;
 
 public class MenuController implements Initializable{
 	 @FXML
@@ -122,8 +122,21 @@ public class MenuController implements Initializable{
 	    
 	    //Acessa Relatorio de Reservas
 	    @FXML
-	    void onActionMIRelRes(ActionEvent event) {
-	    	
+	    void onActionMIRelRes(ActionEvent event) throws SQLException, JRException {
+	    	try{
+				AnchorPane rootx = new AnchorPane();
+				rootx = FXMLLoader.load(getClass().getResource("/com/siscond/view/Relatorios.fxml"));
+				Scene scenex = new Scene(rootx);
+				final Stage stagex = new Stage();
+				stagex.setScene(scenex);
+				stagex.setTitle("Relatório de Reservas");
+				stagex.initModality(Modality.APPLICATION_MODAL);
+				Main main = new Main();
+				stagex.initOwner(main.stage);
+				stagex.show();
+			}catch (Exception e) {
+				Util.mensagemErro("Erro: "+e.getMessage());
+			}
 	    }
 	    
 	    //Acessa Reservas
