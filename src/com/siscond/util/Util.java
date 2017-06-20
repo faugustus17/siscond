@@ -53,7 +53,6 @@ public class Util {
 	public static String dataBarra(Date data){
 		String s;
 		Format formatter;
-		
 		formatter = new SimpleDateFormat("dd/MM/yyyy");
 		s = formatter.format(data);
 		return s;

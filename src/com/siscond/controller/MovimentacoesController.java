@@ -121,19 +121,13 @@ public class MovimentacoesController implements Initializable{
 		if(Util.stringVaziaOuNula(this.txtNumDoc.getText())){
 			msg += "\nInforme o Número do Documento";
 		}
-		if(this.cmbNumApto.getSelectionModel().getSelectedItem().equals("Apartamento")){
-			msg += "\nInforme o Número do Apartamento";
-		}
-		if(this.cmbLan.getSelectionModel().getSelectedItem().equals("Selecione")){
-			msg += "\nInforme um Lançamento";
-		}
 		if(msg.equals("")){
 			Movimentacoes m = new Movimentacoes();
-			m.setCod_lancamento(Integer.parseInt(this.txtCodMov.getText()));
+			m.setCod_movimentacao(Integer.parseInt(this.txtCodMov.getText()));
 			m.setData_movimentacao(this.data_banco);
 			m.setValor(Float.parseFloat(this.txtValor.getText()));
 			m.setNum_documento(Integer.parseInt(this.txtNumDoc.getText()));
-			m.setNum_apto(Integer.parseInt(this.cmbNumApto.getSelectionModel().getSelectedItem().toString()));
+			m.setNum_apto(Integer.parseInt(this.cmbNumApto.getPromptText()));
 			String s = this.cmbLan.getSelectionModel().getSelectedItem();
 			if (s == null){
 				s = this.cmbLan.getPromptText();
@@ -257,15 +251,15 @@ public class MovimentacoesController implements Initializable{
 			MovimentacoesDao mD = new MovimentacoesDao();
 			String s = cmbPesq.getSelectionModel().getSelectedItem().toString();
 			if(s.equals("Por Data")){
-				al = mD.consultaData(Util.dataF(consulta));
+				al = mD.consultaData(consulta);
 			}else if(s.equals("Código Lançamento")){
-				al = mD.consultaCodLcto(Integer.parseInt(consulta));
+				al = mD.consultaCodLcto(consulta);
 			}else if(s.equals("Número do Apartamento")){
-				al = mD.consultaMovNumApto(Integer.parseInt(consulta));
+				al = mD.consultaMovNumApto(consulta);
 			}
 			ob = FXCollections.observableArrayList(al);
 			this.tabView.setItems(ob);
-			this.colDtMov.setCellValueFactory(new PropertyValueFactory<Movimentacoes, Date>("data_movimento"));
+			this.colDtMov.setCellValueFactory(new PropertyValueFactory<Movimentacoes, Date>("data_movimentacao"));
 			this.colNumApto.setCellValueFactory(new PropertyValueFactory<Movimentacoes, Integer>("num_apto"));
 			this.colDescLan.setCellValueFactory(new PropertyValueFactory<Movimentacoes, String>("cod_lancamento"));
 			this.colVal.setCellValueFactory(new PropertyValueFactory<Movimentacoes, Float>("valor"));
@@ -340,7 +334,7 @@ public class MovimentacoesController implements Initializable{
 			public void changed(ObservableValue<? extends Object> observable, Object oldValue, Object newValue) {
 				if(tabView.getSelectionModel().selectedItemProperty() != null){
 					Movimentacoes m = new Movimentacoes();
-					m.setCod_lancamento(tabView.getSelectionModel().getSelectedItem().getCod_movimentacao());
+					m.setCod_movimentacao(tabView.getSelectionModel().getSelectedItem().getCod_movimentacao());
 					m.setData_movimentacao(tabView.getSelectionModel().getSelectedItem().getData_movimentacao());
 					m.setValor(tabView.getSelectionModel().getSelectedItem().getValor());
 					m.setNum_documento(tabView.getSelectionModel().getSelectedItem().getNum_documento());
@@ -429,7 +423,7 @@ public class MovimentacoesController implements Initializable{
 		}
 		this.txtCodMov.setText(Integer.toString(m.getCod_movimentacao()));
 		this.dtPic.setPromptText("");
-		txtData.setText(Util.dataBarra(m.getData_movimentacao()));
+		this.txtData.setText(Util.dataBarra(m.getData_movimentacao()));
 		this.txtValor.setText(Float.toString(m.getValor()));
 		this.txtNumDoc.setText(Integer.toString(m.getNum_documento()));
 		SingleSelectionModel<Tab> selectionModel = this.tabPane.getSelectionModel();

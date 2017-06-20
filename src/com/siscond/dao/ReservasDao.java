@@ -162,8 +162,7 @@ public class ReservasDao {
 			if(numero.equals("")){
 				sql = "SELECT * FROM tb_reservas ORDER BY num_apto";
 			}else{
-				int aux = Integer.parseInt(numero);
-				sql = "SELECT * FROM tb_reservas WHERE num_apto = "+aux;
+				sql = "SELECT * FROM tb_reservas WHERE num_apto = "+Integer.parseInt(numero);
 			}
 			st = conn.createStatement();
 			rs = st.executeQuery(sql);

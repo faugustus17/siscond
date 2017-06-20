@@ -256,7 +256,6 @@ public class ReservasController implements Initializable{
 		this.preencheCmbPesq();
 		
 		this.colRes.setCellFactory(new Callback<TableColumn<Reservas,Date>, TableCell<Reservas,Date>>() {
-
 			@Override
 			public TableCell<Reservas, Date> call(TableColumn<Reservas, Date> param) {
 				return new TableCell<Reservas, Date>(){
