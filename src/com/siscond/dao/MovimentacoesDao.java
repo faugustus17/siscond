@@ -13,7 +13,12 @@ public class MovimentacoesDao {
 	Connection conn = conexao.abreConexaoBD();
 	ResultSet rs = null;
 	Statement st = null;
-
+	
+	/**
+	 * Inclusão no BD
+	 * @param mov
+	 * @return
+	 */
 	//Inclusão no BD
 	public int incluiMov(Movimentacoes mov){
 		int retorno = 0;
@@ -39,6 +44,11 @@ public class MovimentacoesDao {
 		return retorno;
 	}
 
+	/**
+	 * Alteração no BD
+	 * @param mov
+	 * @return
+	 */
 	//Alteração no BD
 	public boolean alteraMov(Movimentacoes mov){
 		boolean retorno = false;
@@ -67,6 +77,11 @@ public class MovimentacoesDao {
 		return retorno;	
 	}
 
+	/**
+	 * Exclusão no BD
+	 * @param mov
+	 * @return
+	 */
 	//Exclusão no BD
 	public boolean excluiMov(Movimentacoes mov){
 		boolean retorno = false;
@@ -88,7 +103,12 @@ public class MovimentacoesDao {
 		}
 		return retorno;	
 	}
-
+	
+	/**
+	 * Consulta e lista pelo numero do apartamento
+	 * @param numero
+	 * @return
+	 */
 	//Consulta e lista pelo Numero do Apartamento
 	public ArrayList<Movimentacoes> consultaMovNumApto (String numero){
 		Movimentacoes m = new Movimentacoes();
@@ -119,6 +139,11 @@ public class MovimentacoesDao {
 		return aL;
 	}
 	
+	/**
+	 * Consulta e lista pelo código do lancamento
+	 * @param numero
+	 * @return
+	 */
 	//Consulta e lista pelo Codigo do Lançamento
 	public ArrayList<Movimentacoes> consultaCodLcto (String numero){
 		Movimentacoes m = new Movimentacoes();
@@ -149,6 +174,11 @@ public class MovimentacoesDao {
 		return aL;
 	}
 
+	/**
+	 * Consulta e lista pela data
+	 * @param data
+	 * @return
+	 */
 	//Consulta e lista pela Data 
 	public ArrayList<Movimentacoes> consultaData (String data){
 		Movimentacoes m = new Movimentacoes();

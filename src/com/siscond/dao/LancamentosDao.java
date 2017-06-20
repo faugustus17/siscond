@@ -15,6 +15,11 @@ public class LancamentosDao {
 	ResultSet rs = null;
 	Statement st = null;
 	
+	/**
+	 * Consulta se lançamento ja existe
+	 * @param desc
+	 * @return
+	 */
 	//Consulta se já existe no BD
 	public int consultaLcto(String desc){
 		int retorno = 0;
@@ -34,6 +39,11 @@ public class LancamentosDao {
 		}
 	}
 	
+	/**
+	 * Inclui no BD
+	 * @param lcto
+	 * @return
+	 */
 	//Inclusão no BD
 	public int incluiLcto(Lancamentos lcto){
 		int retorno = 0;
@@ -62,6 +72,11 @@ public class LancamentosDao {
 		return retorno;
 	}
 	
+	/**
+	 * Altera no BD
+	 * @param lcto
+	 * @return
+	 */
 	//Alteração no BD
 	public boolean alteraLcto(Lancamentos lcto){
 		boolean retorno = false;
@@ -87,6 +102,11 @@ public class LancamentosDao {
 		return retorno;	
 	}
 	
+	/**
+	 * Exclui no BD
+	 * @param lcto
+	 * @return
+	 */
 	//Exclusão no BD
 	public boolean excluiLcto(Lancamentos lcto){
 		boolean retorno = false;
@@ -109,6 +129,11 @@ public class LancamentosDao {
 		return retorno;	
 	}
 	
+	/**
+	 * Consulta e lista pelo tipo de lancamento
+	 * @param tipo
+	 * @return
+	 */
 	//Consulta e lista pelo Tipo do Lancamento
 	public ArrayList<Lancamentos> consultaTipoLcto (String tipo){
 		Lancamentos l = new Lancamentos();
@@ -132,6 +157,11 @@ public class LancamentosDao {
 		return aL;
 	}
 	
+	/**
+	 * Consulta e lista pela descrição do lançamento
+	 * @param desc
+	 * @return
+	 */
 	//Consulta e lista pela Descrição do Lançamento
 	public ArrayList<Lancamentos> consultaDescLcto (String desc){
 		Lancamentos l = new Lancamentos();

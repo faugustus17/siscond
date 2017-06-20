@@ -16,6 +16,11 @@ public class ApartamentosDao {
 	ResultSet rs = null;
 	Statement st = null;
 	
+	/**
+	 * Consulta se já existe no BD
+	 * @param num_apto
+	 * @return
+	 */
 	//Consulta se já existe no BD
 	public int consultaApto(int num_apto){
 		int retorno = 0;
@@ -35,6 +40,11 @@ public class ApartamentosDao {
 		}
 	}
 	
+	/**
+	 * Inclui no BD
+	 * @param apto
+	 * @return
+	 */
 	//Inclusão no BD
 	public int incluiApto(Apartamentos apto){
 		int retorno = 0;
@@ -63,6 +73,11 @@ public class ApartamentosDao {
 		return retorno;
 	}
 	
+	/**
+	 * Altera no BD
+	 * @param apto
+	 * @return
+	 */
 	//Alteração no BD
 	public boolean alteraApto(Apartamentos apto){
 		boolean retorno = false;
@@ -88,6 +103,11 @@ public class ApartamentosDao {
 		return retorno;	
 	}
 	
+	/**
+	 * Exclui no BD
+	 * @param apto
+	 * @return
+	 */
 	//Exclusão no BD
 	public boolean excluiApto(Apartamentos apto){
 		boolean retorno = false;
@@ -110,6 +130,9 @@ public class ApartamentosDao {
 		return retorno;	
 	}
 	
+	/**
+	 * Consulta e lista pelo numero do apartamento
+	 */
 	//Consulta e lista pelo Numero do Apartamento
 	public ArrayList<Apartamentos> consultaNumApto (int numero){
 		Apartamentos a = new Apartamentos();
@@ -133,6 +156,11 @@ public class ApartamentosDao {
 		return aLAp;
 	}
 	
+	/**
+	 * Consulta e lista por Apartamento
+	 * @param numero
+	 * @return
+	 */
 	//Consulta e lista por Numero de Apartamento
 	public Apartamentos consultaPorNumApto(int numero){
 		Apartamentos a = new Apartamentos();
@@ -151,6 +179,11 @@ public class ApartamentosDao {
 		return a;
 	}
 	
+	/**
+	 * Consulta e lista por nome do proprietário
+	 * @param nome
+	 * @return
+	 */
 	//Consulta e lista pelo Nome do Proprietário
 	public ArrayList<Apartamentos> consultaNomeTitular (String nome){
 		Apartamentos a = new Apartamentos();
@@ -179,6 +212,10 @@ public class ApartamentosDao {
 		return aLAp;
 	}
 	
+	/**
+	 * Consulta e lista por apartamento
+	 * @return
+	 */
 	//Consulta e lista Apartamento
 	public ArrayList<Apartamentos> listaNumApto (){
 		Apartamentos a = new Apartamentos();

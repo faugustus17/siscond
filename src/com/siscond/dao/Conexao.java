@@ -5,6 +5,11 @@ import java.sql.SQLException;
 
 import com.mysql.jdbc.Connection;
 
+/**
+ * Classe responsável pela conexão com o banco Mysql
+ * @author Nando
+ *
+ */
 public class Conexao {
 	//usuario e senha
 		private String login = "root";
